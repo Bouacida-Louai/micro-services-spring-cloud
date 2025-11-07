@@ -1,18 +1,19 @@
-package bank.ms.entities;
+package bank.ms.dtos;
 
 import bank.ms.enums.AccountType;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
 
-@Entity
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class BankAccount {
-    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+import java.util.Date;
+@Data @NoArgsConstructor @AllArgsConstructor
+@Builder
+public class BankAccountResponseDto {
+
     private String id;
 
     private Date CreatedAt;
@@ -21,10 +22,5 @@ public class BankAccount {
 
     private String currency;
 
-    @Enumerated(EnumType.STRING)
     private AccountType type;
-    @ManyToOne
-    private Customer customer;
-
-
 }

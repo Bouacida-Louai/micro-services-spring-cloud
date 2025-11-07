@@ -1,8 +1,11 @@
 package bank.ms.web;
 
 import bank.ms.Repository.BankAccountRepository;
+import bank.ms.dtos.BankAccountRequestDto;
+import bank.ms.dtos.BankAccountResponseDto;
 import bank.ms.entities.BankAccount;
 
+import bank.ms.service.AccountService;
 import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +17,12 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class AccountRestController {
 
+    private final AccountService accountService;
 
     private final BankAccountRepository bankAccountRepository;
 
-    public AccountRestController(BankAccountRepository bankAccountRepository) {
+    public AccountRestController(AccountService accountService, BankAccountRepository bankAccountRepository) {
+        this.accountService = accountService;
         this.bankAccountRepository = bankAccountRepository;
     }
 
@@ -33,9 +38,8 @@ public class AccountRestController {
     }
 
     @PostMapping("/add/account")
-    public BankAccount addAccount(@RequestBody BankAccount bankAccount){
-        if (bankAccount.getId()==null) bankAccount.setId(UUID.randomUUID().toString());
-       return bankAccountRepository.save(bankAccount);
+    public BankAccountResponseDto addAccount(@RequestBody BankAccountRequestDto requestDto){
+       return accountService.addAccount(requestDto);
     }
 
     @PutMapping("/update/account/{id}")
